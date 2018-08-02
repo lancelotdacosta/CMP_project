@@ -1,3 +1,5 @@
+"hihihi"
+
 # The fastcluster package is not necessary.  By loading the
 # fastcluster package, the fastcluster::hclust() function 
 # automatically replaces the slower stats::hclust() function

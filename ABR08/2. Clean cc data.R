@@ -3,8 +3,65 @@
 #Input
 #cell count data
 cc <- cc.data
+cc.data <- cc
+
 
 #Function
+
+#Make sure all trees have the same number of radial files in each sample, add rows for the missing ones
+
+#list to store data
+list.of.dataframes <- vector("list", length(unique(cc.data$Tree))*length(unique(cc.data$Sample)))
+#a counter
+i <-  1
+
+for(tree in unique(cc.data$Tree)){
+  #filter by tree
+  cc.tree <- filter(cc.data, Tree == tree)
+  for(sample in unique(cc.tree$Sample)){
+    #filter by tree and sample
+    cc.tree.sample <- filter(cc.tree, Sample == sample)
+    #add a dataframe with tree sample and the number of radial files for that sample
+    list.of.dataframes[[i]] <- data.frame(Tree = tree, Sample = sample, number_of_RF = length(unique(cc.tree.sample$RF)))
+    #increment the counter
+    i <-  i+1
+  }
+}
+#missing_RF is a dataframe that contains all the Tree samples that are missing radial file measurements
+missing_RF <- rbind.fill(Filter(Negate(is.null), list.of.dataframes))
+missing_RF <- filter(missing_RF, number_of_RF < length(unique(cc.data$RF)))
+
+#now we add observations to cell count data for the missing values if there are some missing
+if(nrow(missing_RF)>0){
+  #initialise the list again
+  list.of.dataframes <- vector("list", 1 + nrow(missing_RF))
+  #insert the first element of the list
+  list.of.dataframes[[1]] <-  cc.data
+  #and the counter
+  i <- 2
+  #
+  cells_and_precision <- c("CZ", "EZ", "WZ", "MZ","PR")
+  #
+  for(obs in 1:nrow(missing_RF)){
+    #prepares the missing meausrements that will be added to cc.data
+    missing_measurements <- filter(cc.data, Tree == as.character(missing_RF$Tree[obs]) & Sample == missing_RF$Sample[obs])[1,]
+    #makes sure we add the right amount of measurements
+    missing_measurements <- missing_measurements[rep(1,each=length(unique(cc.data$RF))-missing_RF$number_of_RF[obs]),]
+    #changes the relevant parameters in these measurements
+    missing_measurements <- mutate(missing_measurements, RF = (missing_RF$number_of_RF[obs]+1):length(unique(cc.data$RF)))
+    missing_measurements[,cells_and_precision] = NA
+    #inserts in list of data frames
+    list.of.dataframes[[i]] <- missing_measurements
+    #increments the counter
+    i <-  i+1
+  }
+}
+#adds these observations to cell count data
+cc.data <- rbind.fill(list.of.dataframes)
+
+
+
+#Remove NA cell count values at each sample when not all values are NA
 
 #Initialise a list where we will store data
 list.of.dataframes <- vector("list", length(unique(cc.data$Tree))*length(unique(cc.data$Sample)))

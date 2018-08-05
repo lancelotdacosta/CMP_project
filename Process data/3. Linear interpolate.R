@@ -86,7 +86,7 @@ for(day in 1:days_in_year){
         #cell count data next sample
         next.cc.data <- filter(cc.tree, DY == day_next_sample)[, cells]
         #linear interpolated cell count data
-        new.cc.data <- (prev.cc.data*(day - day_prev_sample) +next.cc.data*(day_next_sample - day))/(day_next_sample - day_prev_sample)
+        new.cc.data <- (prev.cc.data*(day_next_sample - day) +next.cc.data*(day - day_prev_sample))/(day_next_sample - day_prev_sample)
       }
       #insert cell count data into new.data
       new.data <- mutate(new.data, CZ = new.cc.data[,"CZ"], EZ = new.cc.data[,"EZ"], WZ = new.cc.data[,"WZ"], MZ = new.cc.data[,"MZ"])

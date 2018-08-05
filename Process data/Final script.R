@@ -41,9 +41,12 @@ meteo.data <- filter(meteo.data, annee == 2007)
 cc.data <- add.anat.data(cc.data, anat.data)
 cc.data <- clean.cc.data(cc.data)
 cc.data <- linear.interpolate.cc.data(cc.data)
+
 cc.data <- add.new.variables(cc.data, path)
+#cc2
 cc.data <- fluxes.cc.data(cc.data)
-cc.data <- flux.mean.cc.data(cc.data)
+#cc
+cc.data <- flux.mean.cc.data(cc.data) #ERROR
 cc.data <- merge.with.meteo.data(cc.data, meteo.data)
 ABR07 <- cc.data
 

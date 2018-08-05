@@ -223,7 +223,7 @@ for(row in 1:nrow(all.NA)){
       
       #linear interpolation of the element (Tree/Sample/RF,Cell)
       cc.data[obs_no, as.character(all.NA$Cell_type[row])] <- 
-        (cc_prev_sample_cell[rf,1]*(day_of_sample - day_prev_sample) + cc_next_sample_cell[rf,1]*(day_of_sample - day_prev_sample))/(day_next_sample - day_prev_sample)
+        (cc_prev_sample_cell[rf,1]*(day_next_sample - day_of_sample) + cc_next_sample_cell[rf,1]*(day_of_sample - day_prev_sample))/(day_next_sample - day_prev_sample)
       
       #increment the QC flag to indicate that the data has been modified
       cc.data[obs_no, "QC_flag"] <- cc.data[obs_no, "QC_flag"] +1

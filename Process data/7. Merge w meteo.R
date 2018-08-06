@@ -9,7 +9,7 @@
 merge.with.meteo.data <- function(cc.flux.data, meteo.data){
   
   if(nrow(cc.flux.data) %% nrow(meteo.data) !=0){ #remainder of euclidean division
-    stop("Error 101 in merge function")
+    stop("Error 101 in merge function: number of data rows not divisible by number of meteo data rows")
   }
   
   if(!identical(unique(as.numeric(cc.flux.data$DY)),unique(as.numeric(meteo.data$jour)))){ #same number of days?

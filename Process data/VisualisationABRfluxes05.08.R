@@ -2,7 +2,7 @@
 
 library(gridExtra)
 
-pdf("ABR09fluxes05.08.pdf", onefile = TRUE)
+pdf("GRA09fluxes.pdf", onefile = TRUE)
 
 for (i in unique(cc.data$Tree)) {
   grid.arrange(ggflux1(i), ggflux2(i), ggflux3(i), ggflux4(i), ncol = 2, nrow = 2)

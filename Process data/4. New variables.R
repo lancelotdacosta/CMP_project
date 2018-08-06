@@ -27,6 +27,12 @@ cc.data.raw <- path %>%
 
 #extracts tree description of site
 Tree_description <- cc.data.raw$`Tree description`
+
+if(sum(c("Tree", "Age", "Diameter", "Height") %in% names(Tree_description))<4){
+  warning("Error in Tree Description, add.new.variables function")
+  stop("Either tree, age, diameter or height is missing")
+}
+
 #selects the variables we will insert in the dataframe
 Tree_age_dimensions <- select(Tree_description, Tree, Age, Diameter, Height)
 
@@ -54,9 +60,18 @@ cc.data <- rbind.fill(list.of.dataframes)
 
 #2)
 
+#General description of study
+general.description <- as.data.frame(cc.data.raw$`General description`)
+
+#Checks if general description contains latitude and longitude
+if(is.na(match("Latitude", general.description[,1])) | is.na(match("Longitude", general.description[,1]))){
+  warning("Error in general description, add.new.variables function")
+  stop("Either longitude or latitude is missing")
+}
+
 #gets latitude and longitude of the site
-latitude <- as.numeric(filter(cc.data.raw$`General description`, Investigators == "Latitude")[1,2])
-longitude <- as.numeric(filter(cc.data.raw$`General description`, Investigators == "Longitude")[1,2])
+latitude <- as.numeric(general.description[match("Latitude", general.description[,1]),2])
+longitude <- as.numeric(general.description[match("Longitude", general.description[,1]),2])
 
 #list to store data
 list.of.dataframes <- vector("list", length(unique(cc.data$annee))*length(unique(cc.data$jour)))
@@ -97,9 +112,15 @@ cc.data <- rbind.fill(list.of.dataframes)
 
 
 #3)
+
+if(is.na(match("Altitude (m a.s.l.)", general.description[,1]))){
+  warning("Error in general description, add.new.variables function")
+  stop("Altitude is missing")
+}
+
 #Add a variable for altitude
 cc.data <- mutate(cc.data, 
-             Altitude = as.numeric(filter(cc.data.raw$`General description`, Investigators == "Altitude (m a.s.l.)")[1,2]))
+             Altitude = as.numeric(general.description[match("Altitude (m a.s.l.)", general.description[,1]),2]))
 
 #return updated cell count data
 cc.data

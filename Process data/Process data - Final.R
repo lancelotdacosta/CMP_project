@@ -27,27 +27,41 @@ library(suncalc)
 
 
 #cell count data for one site & one year
-load("/Users/lancelotdacosta/Desktop/Data/Cell Count Data/Cellcounts_ABR_2007to2009.RData")
-cc.data <- filter(ABR.raw.data, Year == 2007)
+#load("/Users/lancelotdacosta/Desktop/Data/Cell Count Data/Cellcounts_ABR_2007to2009.RData")
+#cc.data <- filter(ABR.raw.data, Year == 2007)
+
+
 #anatomical data
-anat.data <- read.csv(file = "/Users/lancelotdacosta/Desktop/Data/Anatomical data/TDG_ABR2007_Raw.csv", sep = ";")
+anat.data <- read.csv(file = "/Users/lancelotdacosta/Desktop/Data/Anatomical data/TDG_GRA2009_Raw.csv", sep = ";")
 #path to cell count excel file
-path <- "/Users/lancelotdacosta/Desktop/Summer project/data/Cellular_resolution_France_Vosgues copy/Donon Data/Cell Count Data/ABR2007 Cell Count - 2014-12-18.xlsx"
+dir <- "/Users/lancelotdacosta/Desktop/Data/Cell Count Data/"
+cc_data_name <- "GRA2009 Cell Count - 2014-04-18.xlsx"
+path <- paste(c(dir, cc_data_name), collapse = "")
 #meteo data
-meteo.data <- read.delim("/Users/lancelotdacosta/Desktop/Data/Meteorological data/DonneesMeteoJournalieres_Abreschviller_AE.txt")
-meteo.data <- filter(meteo.data, annee == 2007)
+meteo.data <- read.delim("/Users/lancelotdacosta/Desktop/Data/Meteorological data/DonneesMeteoJournalieres_Grandfontaine.txt")
+meteo.data <- filter(meteo.data, annee == 2009)
 
 #
+cc.data <- readExcelCountTable(path)
 cc.data <- add.anat.data(cc.data, anat.data)
 cc.data <- clean.cc.data(cc.data)
 cc.data <- linear.interpolate.cc.data(cc.data)
-
 cc.data <- add.new.variables(cc.data, path)
-#cc2
 cc.data <- fluxes.cc.data(cc.data)
-#cc
-cc.data <- flux.mean.cc.data(cc.data) #ERROR
 cc.data <- merge.with.meteo.data(cc.data, meteo.data)
-ABR07 <- cc.data
 
-save(ABR07, file = "ABR07.RData")
+GRA09 <- cc.data
+save(GRA09, file = "GRA09fluxes.RData")
+cc.data <- flux.mean.cc.data(cc.data)
+GRA09 <- cc.data
+save(GRA09, file = "GRA09fluxesmean.RData")
+
+
+
+#
+#removes all environmental variables except for functions
+rm(list = setdiff(ls(), lsf.str()))
+
+#correlation tests
+cor(1:12,12:1,method="spearman")
+

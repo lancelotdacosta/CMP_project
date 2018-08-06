@@ -40,7 +40,7 @@ merge.with.meteo.data <- function(cc.flux.data, meteo.data){
     }
   }
   #put everything in a big dataframe
-  df <- rbind.fill(list_of_dataframes)
+  df <- rbind.fill(list.of.dataframes)
   #outputs dataframe
   df
 }

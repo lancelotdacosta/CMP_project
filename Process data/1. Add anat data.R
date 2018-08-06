@@ -17,6 +17,10 @@ if(sum(c('Year', 'Tree', 'PathName', 'CellRank') %in% names(anat.data)) !=4) {
   stop("Anatomical data does not contain variable 'Year' or 'Tree' or 'PathName' or 'CellRank'. Please add them and perform operation again.")
   
 }
+  
+if(cc.data$Year[1] != anat.data$Year[1]){
+  stop("Year of cell count data and anatomical data do not correspond.")
+}
 
 #Selects the variables we need from the anatomical data
 anat.data.select <- select(anat.data, Year, Tree, PathName, CellRank)

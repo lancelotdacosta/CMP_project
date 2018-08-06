@@ -12,8 +12,8 @@ list.of.dataframes <- vector("list", length(unique(flux.data$Tree))*length(uniqu
 i <- 1
 
 #loops on trees and days
-for(tree in unique(flux$Tree)) {
-  for(day in unique(flux$DY)) {
+for(tree in unique(flux.data$Tree)) {
+  for(day in unique(flux.data$DY)) {
     
     #filters data by tree and day
     flux.tree.day <- filter(flux.data, Tree == tree, DY == day)

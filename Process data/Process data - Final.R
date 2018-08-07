@@ -46,15 +46,16 @@ cc.data <- readExcelCountTable(path)
 cc.data <- add.anat.data(cc.data, anat.data)
 cc.data <- clean.cc.data(cc.data)
 cc.data <- linear.interpolate.cc.data(cc.data)
-cc.data <- add.new.variables(cc.data, path)
 cc.data <- fluxes.cc.data(cc.data)
+cc.data <- add.new.variables(cc.data, path)
 cc.data <- merge.with.meteo.data(cc.data, meteo.data)
 
-GRA09 <- cc.data
-save(GRA09, file = "GRA09fluxes.RData")
+GRA09all <- cc.data
+save(GRA09all, file = "GRA09all.RData")
+
 cc.data <- flux.mean.cc.data(cc.data)
-GRA09 <- cc.data
-save(GRA09, file = "GRA09fluxesmean.RData")
+GRA09allmean <- cc.data
+save(GRA09allmean, file = "GRA09allmean.RData")
 
 
 

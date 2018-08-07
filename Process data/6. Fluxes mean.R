@@ -18,22 +18,20 @@ for(tree in unique(flux.data$Tree)) {
     #filters data by tree and day
     flux.tree.day <- filter(flux.data, Tree == tree, DY == day)
     
-    #take different fluxes and precision
-    flux1 <- flux.tree.day[, "toCZ"]
-    flux2 <- flux.tree.day[, "CZtoEZ"]
-    flux3 <- flux.tree.day[, "EZtoWZ"]
-    flux4 <- flux.tree.day[, "WZtoMZ"]
-    precision <- flux.tree.day[, "PR"]
-    
     #new data
     new.data <- flux.tree.day[1,]
     
-    #change flux data by the means
-    new.data[, "toCZ"] <- mean(flux1)
-    new.data[, "CZtoEZ"] <- mean(flux2)
-    new.data[, "EZtoWZ"] <- mean(flux3)
-    new.data[, "WZtoMZ"] <- mean(flux4)
-    new.data[, "PR"] <- mean(precision)
+    #change data by the means
+    new.data[, "CZ"] <- mean(flux.tree.day[, "CZ"])
+    new.data[, "EZ"] <- mean(flux.tree.day[, "EZ"])
+    new.data[, "WZ"] <- mean(flux.tree.day[, "WZ"])
+    new.data[, "MZ"] <- mean(flux.tree.day[, "MZ"])
+    
+    new.data[, "toCZ"] <- mean(flux.tree.day[, "toCZ"])
+    new.data[, "CZtoEZ"] <- mean(flux.tree.day[, "CZtoEZ"])
+    new.data[, "EZtoWZ"] <- mean(flux.tree.day[, "EZtoWZ"])
+    new.data[, "WZtoMZ"] <- mean(flux.tree.day[, "WZtoMZ"])
+    new.data[, "PR"] <- mean(flux.tree.day[, "PR"])
     
     #insert in list
     list.of.dataframes[[i]] <- new.data

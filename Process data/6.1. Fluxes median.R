@@ -18,22 +18,20 @@ flux.median.cc.data <- function(flux.data){
       #filters data by tree and day
       flux.tree.day <- filter(flux.data, Tree == tree, DY == day)
       
-      #take different fluxes and precision
-      flux1 <- flux.tree.day[, "toCZ"]
-      flux2 <- flux.tree.day[, "CZtoEZ"]
-      flux3 <- flux.tree.day[, "EZtoWZ"]
-      flux4 <- flux.tree.day[, "WZtoMZ"]
-      precision <- flux.tree.day[, "PR"]
-      
       #new data
       new.data <- flux.tree.day[1,]
       
       #change flux data by the medians
-      new.data[, "toCZ"] <- median(flux1)
-      new.data[, "CZtoEZ"] <- median(flux2)
-      new.data[, "EZtoWZ"] <- median(flux3)
-      new.data[, "WZtoMZ"] <- median(flux4)
-      new.data[, "PR"] <- median(precision)
+      new.data[, "CZ"] <- median(flux.tree.day[, "CZ"])
+      new.data[, "EZ"] <- median(flux.tree.day[, "EZ"])
+      new.data[, "WZ"] <- median(flux.tree.day[, "WZ"])
+      new.data[, "MZ"] <- median(flux.tree.day[, "MZ"])
+      
+      new.data[, "toCZ"] <- median(flux.tree.day[, "toCZ"])
+      new.data[, "CZtoEZ"] <- median(flux.tree.day[, "CZtoEZ"])
+      new.data[, "EZtoWZ"] <- median(flux.tree.day[, "EZtoWZ"])
+      new.data[, "WZtoMZ"] <- median(flux.tree.day[, "WZtoMZ"])
+      new.data[, "PR"] <- median(flux.tree.day[, "PR"])
       
       #insert in list
       list.of.dataframes[[i]] <- new.data

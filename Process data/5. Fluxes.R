@@ -55,10 +55,10 @@ for(tree in unique(cc.data$Tree)) {
     Delta_MZ <- (MZ - MZ_copy)/2
     
     flux_tree_rf <- mutate(flux_tree_rf, #changes the data frame to be the dataframe of fluxes with Tree tree and RF rf
-                           CZ = Delta_CZ + Delta_EZ +Delta_WZ +Delta_MZ, #the fluxes follow these mathematical equations
-                           EZ = Delta_EZ +Delta_WZ +Delta_MZ,
-                           WZ = Delta_WZ + Delta_MZ,
-                           MZ = Delta_MZ)
+                           toCZ = Delta_CZ + Delta_EZ +Delta_WZ +Delta_MZ, #the fluxes follow these mathematical equations
+                           CZtoEZ = Delta_EZ +Delta_WZ +Delta_MZ,
+                           EZtoWZ = Delta_WZ + Delta_MZ,
+                           WZtoMZ = Delta_MZ)
     #put in list
     list.of.dataframes[[i]] <- flux_tree_rf
     #increment counter
@@ -68,12 +68,6 @@ for(tree in unique(cc.data$Tree)) {
 
 #puts everything in flux.data
 flux.data <- rbind.fill(list.of.dataframes)
-
-#changes names of the columns
-names(flux.data)[names(flux.data)=="CZ"] <- "toCZ"
-names(flux.data)[names(flux.data)=="EZ"] <- "CZtoEZ"
-names(flux.data)[names(flux.data)=="WZ"] <- "EZtoWZ"
-names(flux.data)[names(flux.data)=="MZ"] <- "WZtoMZ"
 
 #return flux.data
 flux.data

@@ -373,6 +373,7 @@ ggfluxsmoothcrop <- function(t){
 }
 
 showdata <- function(cc.data){
+  library(gridExtra)
   for (i in unique(cc.data$Tree)) {
     grid.arrange(ggtree(i))
     grid.arrange(ggflux1(i), ggflux2(i), ggflux3(i), ggflux4(i), ncol = 2, nrow = 2)

@@ -35,27 +35,28 @@ library(suncalc)
 anat.data <- read.csv(file = "/Users/lancelotdacosta/Desktop/Data/Anatomical data/TDG_GRA2009_Raw.csv", sep = ";")
 #path to cell count excel file
 dir <- "/Users/lancelotdacosta/Desktop/Data/Cell Count Data/"
-cc_data_name <- "GRA2009 Cell Count - 2014-04-18.xlsx"
-path <- paste(c(dir, cc_data_name), collapse = "")
+name <- "DononCellCountDataClean.Rdata"
+path <- paste(c(dir, name), collapse = "")
 #meteo data
 meteo.data <- read.delim("/Users/lancelotdacosta/Desktop/Data/Meteorological data/DonneesMeteoJournalieres_Grandfontaine.txt")
-meteo.data <- filter(meteo.data, annee == 2009)
+meteo.data <- filter(meteo.data, annee == 2008)
 
 #
-cc.data <- readExcelCountTable(path)
-cc.data <- add.anat.data(cc.data, anat.data)
+#cc.data <- readExcelCountTable(path)
+#cc.data <- add.anat.data(cc.data, anat.data)
 cc.data <- clean.cc.data(cc.data)
 cc.data <- linear.interpolate.cc.data(cc.data)
+cc.data <- normalise(cc.data)
 cc.data <- fluxes.cc.data(cc.data)
-cc.data <- add.new.variables(cc.data, path)
-cc.data <- merge.with.meteo.data(cc.data, meteo.data)
+#cc.data <- add.new.variables(cc.data, path)
+#cc.data <- merge.with.meteo.data(cc.data, meteo.data)
 
-GRA09all <- cc.data
-save(GRA09all, file = "GRA09all.RData")
+GRA09all.nornmalised <- cc.data
+save(GRA09all, file = "GRA09all.normalised.RData")
 
-cc.data <- flux.mean.cc.data(cc.data)
-GRA09allmean <- cc.data
-save(GRA09allmean, file = "GRA09allmean.RData")
+#cc.data <- flux.mean.cc.data(cc.data)
+#GRA09allmean <- cc.data
+#save(GRA09allmean, file = "GRA09allmean.RData")
 
 
 

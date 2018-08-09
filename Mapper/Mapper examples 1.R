@@ -18,7 +18,7 @@ First.Example.graph <- graph.adjacency(First.Example.mapper$adjacency, mode="und
 plot(First.Example.graph, layout = layout.auto(First.Example.graph) )
 
 
-#Mean value of First.Example.data$y in each vertex:
+#Mean value of First.Example.data$x in each vertex:
 
 y.mean.vertex <- rep(0,First.Example.mapper$num_vertices)
 for (i in 1:First.Example.mapper$num_vertices){
@@ -47,7 +47,7 @@ legend(x=-2, y=-1, c("y small","y medium", "large y"),pch=21,
 
 #Interactive
 library(networkD3)
-MapperNodes <- mapperVertices(First.Example.mapper, 1:100 )
+MapperNodes <- mapperVertices(First.Example.mapper, 1:2000 )
 MapperLinks <- mapperEdges(First.Example.mapper)
 
 forceNetwork(Nodes = MapperNodes, Links = MapperLinks, 
